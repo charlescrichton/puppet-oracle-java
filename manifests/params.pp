@@ -7,14 +7,15 @@ class oracle_java::params (
   $arc     = "x64",
   $version = "7u25",
   $os      = "linux"
+  $files_dir = "."
 ){
 
   $java_dir = "${type}-${version}"
   $jvm_path = "/usr/lib/jvm"
-
+  
   if $version =~ /^[6][a-z0-9_-]{2,10}$/ {
     $java_file = "${type}-${version}-${os}-${arc}.bin"
-    $unrar_command = "chmod +x ${java_file} && ./${java_file} && mv ${type}1.6* ${java_dir}"
+    $unrar_command = "chmod +x ${java_file} && ${files_dir}/${java_file} && mv ${type}1.6* ${java_dir}"
   }
   elsif $version =~ /^[7][a-z0-9_-]{2,10}$/ {
     $java_file = "${type}-${version}-${os}-${arc}.tar.gz"
@@ -23,7 +24,6 @@ class oracle_java::params (
   else {
     fail("Not a supported verion of Java. \$version needs to be 1.6 or 1.7! ")
   }
-
 
   case $::operatingsystem {
     Ubuntu, Debian, CentOS: {
